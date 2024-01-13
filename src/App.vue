@@ -23,12 +23,21 @@ watch(inputValue, () => {
 const selectItem = (name) => {
   const newItem = {
     name,
-    id: Date.now()
+    id: Date.now(),
+    checked: false
   }
   const itemExists = currentList.value.find(item => item.name === name)
   if (!itemExists) {
     currentList.value.push(newItem)
   } 
+}
+
+const updateItemStatus = (id) => {
+  currentList.value.forEach((item) => {
+    if (item.id === id) {
+      item.checked = !item.checked
+    }
+  })
 }
 
 const deleteItem = (item) => {
@@ -60,16 +69,25 @@ const deleteItem = (item) => {
     <div
       class="shopping-list"
     >
-      <button 
-        v-for="(item) in currentList"
-        :key="item.id"
-        class="shopping-list-item"
-      >{{ item.name }}
-      <button 
-        class="delete-btn"
-        @click="deleteItem(item)"
-      >x</button>
-      </button>
+        <div
+          v-for="(item) in currentList"
+          :key="item.id"
+          class="shopping-list-item"
+        >
+          <input 
+            type="checkbox" 
+            :value="item.name"
+            @change="updateItemStatus(item.id)"
+          />
+          <span
+            :class="item.checked ? 'checked-off' : ''"
+          >{{ item.name }}</span>
+          <button 
+            class="delete-btn"
+            @click="deleteItem(item)"
+          >x
+          </button>
+        </div>
     </div>
   </main>
 </template>
@@ -103,6 +121,10 @@ button {
   justify-content: space-between;
   min-width: 250px;
   margin-bottom: 15px;
+}
+.checked-off {
+  font-style: italic;
+  text-decoration: line-through;
 }
 .delete-btn {
   width: 20px;
