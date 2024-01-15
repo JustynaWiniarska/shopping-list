@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
+import { debounce } from 'lodash';
 
 const appName = 'Shopping List'
 const inputValue = ref('')
@@ -13,11 +14,12 @@ const fetchItems = async () => {
 }
 
 watch(inputValue, () => {
-  setTimeout(() => {
-    if (inputValue.value.length > 1) {
+  if (inputValue.value.length > 1) {
+    const debouncedFetchItems = debounce(() => {
       fetchItems()
-    }
-  }, 500)
+    }, 500)
+    debouncedFetchItems()
+  }
 })
 
 const selectItem = (name) => {
@@ -47,7 +49,7 @@ const deleteItem = (item) => {
 </script>
 
 <template>
-  <main>
+  <main class="flex">
     <div>
         <h1 class="text-4xl mb-6">{{ appName }}</h1>
         <input 
@@ -58,7 +60,7 @@ const deleteItem = (item) => {
           <p
             v-for="(item, index) in searchSuggestions"
             :key="index"
-            class="suggested-item"
+            class="hover:pointer hover:font-bold"
             @click="selectItem(item)"
           >
             {{ item }}
@@ -93,19 +95,6 @@ const deleteItem = (item) => {
 </template>
 
 <style scoped>
-main {
-  display: flex;
-}
-=
-.suggested-items {
-  border: 1px solid black;
-  width: 200px;
-  padding-left: 20px;
-}
-.suggested-item:hover {
-  font-weight: bold;
-  cursor: pointer;
-}
 button {
   width: 100%
 }
