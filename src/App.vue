@@ -14,7 +14,7 @@ const fetchItems = async () => {
 
 watch(inputValue, () => {
   setTimeout(() => {
-    if (inputValue.value.length > 2) {
+    if (inputValue.value.length > 1) {
       fetchItems()
     }
   }, 500)
@@ -49,12 +49,12 @@ const deleteItem = (item) => {
 <template>
   <main>
     <div>
-        <h1>{{ appName }}</h1>
+        <h1 class="text-4xl mb-6">{{ appName }}</h1>
         <input 
-          class="search-input"
+          class="h-8 w-56 px-4 border-2 border-black"
           v-model="inputValue"
         />
-        <div class="suggested-items"> 
+        <div class="w-56 border px-6 border-black"> 
           <p
             v-for="(item, index) in searchSuggestions"
             :key="index"
@@ -72,7 +72,7 @@ const deleteItem = (item) => {
         <div
           v-for="(item) in currentList"
           :key="item.id"
-          class="shopping-list-item"
+          class="shopping-list-item w-full"
         >
           <input 
             type="checkbox" 
@@ -96,10 +96,7 @@ const deleteItem = (item) => {
 main {
   display: flex;
 }
-.search-input {
-  height: 35px;
-  width: 200px;
-}
+=
 .suggested-items {
   border: 1px solid black;
   width: 200px;
@@ -123,8 +120,8 @@ button {
   margin-bottom: 15px;
 }
 .checked-off {
-  font-style: italic;
   text-decoration: line-through;
+  color: grey;
 }
 .delete-btn {
   width: 20px;
