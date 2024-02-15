@@ -26,7 +26,8 @@ const selectItem = (name) => {
   const newItem = {
     name,
     id: Date.now(),
-    checked: false
+    checked: false,
+    amount: 1
   }
   const itemExists = currentList.value.find(item => item.name === name)
   if (!itemExists) {
@@ -40,6 +41,16 @@ const updateItemStatus = (id) => {
       item.checked = !item.checked
     }
   })
+}
+
+const increaseAmount = (item) => {
+  item.amount++;
+}
+
+const decreaseAmount = (item) => {
+  if (item.amount > 1) {
+    item.amount--;
+  }
 }
 
 const deleteItem = (item) => {
@@ -76,11 +87,18 @@ const deleteItem = (item) => {
           :key="item.id"
           class="shopping-list-item w-full"
         >
-          <input 
-            type="checkbox" 
-            :value="item.name"
-            @change="updateItemStatus(item.id)"
-          />
+          <div class="flex w-[6rem] ">
+            <input 
+              class="mr-4"
+              type="checkbox" 
+              :value="item.name"
+              @change="updateItemStatus(item.id)"
+            />
+              <p class="mr-2">{{ item.amount }}</p>
+              <button @click="increaseAmount(item)">+</button>
+              <button @click="decreaseAmount(item)">-</button>
+          </div>
+
           <span
             :class="item.checked ? 'checked-off' : ''"
           >{{ item.name }}</span>
