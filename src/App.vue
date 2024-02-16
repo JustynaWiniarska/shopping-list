@@ -119,17 +119,22 @@ const handleKeyDown = (event) => {
               type="checkbox" 
               :value="item.name"
               v-model="item.checked"
-              @change="updateItemStatus(item.id)"
+              :aria-checked="item.checked"
+              @click="updateItemStatus(item.id)"
               @keydown.enter.prevent="updateItemStatus(item.id)"
             />
             <p class="mr-2">{{ item.amount }}</p>
             <button 
               @click="increaseAmount(item)"
               class="w-full"
+              role="button"
+              :aria-label="'Increase the amount of ' + item.name"
             >+</button>
             <button 
               @click="decreaseAmount(item)"
               class="w-full"
+              role="button"
+              :aria-label="'Decrease the amount of ' + item.name"
             >-</button>
           </div>
 
@@ -138,6 +143,8 @@ const handleKeyDown = (event) => {
           >{{ item.name }}</span>
           <button 
             @click="deleteItem(item)"
+            role="button"
+            :aria-label="'Remove ' + item.name"
           >x
           </button>
         </div>
