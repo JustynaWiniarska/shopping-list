@@ -23,14 +23,16 @@ watch(inputValue, () => {
   }
 })
 
-const selectItem = (name) => {
+const selectItem = (index) => {
+  const itemName = searchSuggestions.value[index]
+
   const newItem = {
-    name,
+    name: itemName,
     id: Date.now(),
     checked: false,
     amount: 1
   }
-  const itemExists = currentList.value.find(item => item.name === name)
+  const itemExists = currentList.value.find(item => item.name === itemName)
   if (!itemExists) {
     currentList.value.push(newItem)
   } 
@@ -67,7 +69,7 @@ const handleKeyDown = (event) => {
     selectedIndex.value--
   }
   if (event.key === 'Enter') {
-    // selectItem()
+    selectItem(selectedIndex.value)
   }
 }
 
@@ -88,7 +90,7 @@ const handleKeyDown = (event) => {
             :key="index"
             class="hover:pointer hover:font-bold"
             :class="{'border-2 border-blue-400 px-2': index === selectedIndex}"
-            @click="selectItem(item)"
+            @click="selectItem(index)"
           >
             {{ item }}
           </p>
