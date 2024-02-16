@@ -84,13 +84,23 @@ const handleKeyDown = (event) => {
           v-model="inputValue"
           @keydown="handleKeyDown"
         />
-        <div class="w-56 border px-6 border-black"> 
+        <div 
+          class="w-56 border px-6 border-black"
+          role="listbox"
+          id="Suggested Item"
+        > 
           <p
             v-for="(item, index) in searchSuggestions"
             :key="index"
+            tabindex="0"
+            role="option"
+            :id="'Suggested Item - ' + index"
             class="hover:pointer hover:font-bold"
             :class="{'border-2 border-blue-400 px-2': index === selectedIndex}"
             @click="selectItem(index)"
+            @keydown.stop.enter.prevent="selectItem(index)"
+            :aria-selected="index === selectedIndex"
+            @focus="index === selectedIndex"
           >
             {{ item }}
           </p>
@@ -108,11 +118,13 @@ const handleKeyDown = (event) => {
               class="mr-4"
               type="checkbox" 
               :value="item.name"
+              v-model="item.checked"
               @change="updateItemStatus(item.id)"
+              @keydown.enter.prevent="updateItemStatus(item.id)"
             />
-              <p class="mr-2">{{ item.amount }}</p>
-              <button @click="increaseAmount(item)">+</button>
-              <button @click="decreaseAmount(item)">-</button>
+            <p class="mr-2">{{ item.amount }}</p>
+            <button @click="increaseAmount(item)">+</button>
+            <button @click="decreaseAmount(item)">-</button>
           </div>
 
           <span
