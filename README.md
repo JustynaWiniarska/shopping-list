@@ -22,3 +22,7 @@
 - Example response: ['milk', 'milkshake', 'mint', 'mixed herbs']
 - Only accepts items with a minimum of two characters (e.g. 'mi' is fine, 'm' will return an empty array')
 - Debounces the input
+
+#### Additional Features
+- Adds a way for the user to adjust quantity for each item by clicking '+' and '-' buttons.
+- Makes the autocomplete list navigable with a keyboard: pressing up/down on the keyboard changes the highlighted item in the list of partially matching items (e.g. press down = highlight the next item, press up = highlight the previous item). Pressing enter with an item highlighted adds it to the list.
