@@ -6,6 +6,7 @@ const appName = 'Shopping List'
 const inputValue = ref('')
 const searchSuggestions = ref([])
 const currentList = ref([])
+const selectedIndex = ref(-1)
 
 const fetchItems = async () => {
   const response = await fetch(`https://api.frontendeval.com/fake/food/${inputValue.value}`)
@@ -57,6 +58,19 @@ const deleteItem = (item) => {
   const updatedList = currentList.value.filter((product) => item.id !== product.id)
   currentList.value = updatedList
 }
+
+const handleKeyDown = (event) => {
+  if (event.key === "ArrowDown") {
+    selectedIndex.value++
+  }
+  if (event.key === "ArrowUp") {
+    selectedIndex.value--
+  }
+  if (event.key === 'Enter') {
+    // selectItem()
+  }
+}
+
 </script>
 
 <template>
@@ -66,12 +80,14 @@ const deleteItem = (item) => {
         <input 
           class="h-8 w-56 px-4 border-2 border-black"
           v-model="inputValue"
+          @keydown="handleKeyDown"
         />
         <div class="w-56 border px-6 border-black"> 
           <p
             v-for="(item, index) in searchSuggestions"
             :key="index"
             class="hover:pointer hover:font-bold"
+            :class="{'border-2 border-blue-400 px-2': index === selectedIndex}"
             @click="selectItem(item)"
           >
             {{ item }}
@@ -79,9 +95,7 @@ const deleteItem = (item) => {
         </div>
 
     </div>
-    <div
-      class="shopping-list"
-    >
+    <div class="shopping-list">
         <div
           v-for="(item) in currentList"
           :key="item.id"
