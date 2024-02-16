@@ -107,11 +107,11 @@ const handleKeyDown = (event) => {
         </div>
 
     </div>
-    <div class="shopping-list">
+    <div class="flex-row mt-16 ml-16">
         <div
           v-for="(item) in currentList"
           :key="item.id"
-          class="shopping-list-item w-full"
+          class="flex justify-between mb-2 w-full min-w-[20rem]"
         >
           <div class="flex w-[6rem] ">
             <input 
@@ -123,15 +123,20 @@ const handleKeyDown = (event) => {
               @keydown.enter.prevent="updateItemStatus(item.id)"
             />
             <p class="mr-2">{{ item.amount }}</p>
-            <button @click="increaseAmount(item)">+</button>
-            <button @click="decreaseAmount(item)">-</button>
+            <button 
+              @click="increaseAmount(item)"
+              class="w-full"
+            >+</button>
+            <button 
+              @click="decreaseAmount(item)"
+              class="w-full"
+            >-</button>
           </div>
 
           <span
-            :class="item.checked ? 'checked-off' : ''"
+            :class="item.checked ? 'line-through text-gray-500' : ''"
           >{{ item.name }}</span>
           <button 
-            class="delete-btn"
             @click="deleteItem(item)"
           >x
           </button>
@@ -139,28 +144,3 @@ const handleKeyDown = (event) => {
     </div>
   </main>
 </template>
-
-<style scoped>
-button {
-  width: 100%
-}
-.shopping-list {
-  margin: 3rem 0 0 3rem;
-  flex-direction: row;
-}
-.shopping-list-item {
-  display: flex;
-  justify-content: space-between;
-  min-width: 250px;
-  margin-bottom: 15px;
-}
-.checked-off {
-  text-decoration: line-through;
-  color: grey;
-}
-.delete-btn {
-  width: 20px;
-}
-
-
-</style>
